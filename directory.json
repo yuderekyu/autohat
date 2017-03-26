@@ -16,5 +16,9 @@
       "mac": "b8:e9:37:11:d5:5c",
       "vendor": "Sonos, Inc.",
       "timestamp": 1427686747854
+   },
+   "24:DA:9B:08:F5:9E": {
+      "mac": "24:DA:9B:08:F5:9E",
+      "vendor": "Garret's Phone"
    }
 }
