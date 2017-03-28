@@ -1,23 +1,23 @@
 var express = require('express');
 var directory = require('../directory.json');
+var helper = require('../helpers/arp');
 
 var router = express.Router();
 
 /**
- * @TODO Parse arppush data, compare with directory
+ * Parse arppush data and create attendance model
  */
 router.post('/', (req, res) => {
-        var map = req.body;
-        var length = Object.keys(directory).length;
-        for (var user in map) {
-            if (helper.findMacAddress(user))
-            //update attendance mongo db model
-            res.json("aarpush succeeded");
-        }
+    var blob = req.body;
+    var attendance = helper.findMacAddresses(blob);
+    attendance.save(err => {
+        if (err)
+            res.send(err);
+    });
+    res.render('index', {
+        present: attendance.present,
+        total: attendance.total
+    })        
 });
-
-router.get('/', (req, res) => {
-    res.json("test");
-})
 
 module.exports = router;

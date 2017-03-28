@@ -6,7 +6,7 @@ var config = require('./config.json');
 var userRouter = require('./routes/user');
 var arpRouter = require('./routes/arp');
 
-mongoose.connect('mongodb://' + config.mongodb.user + ':' + config.mongodb.password + '@ds141450.mlab.com:41450/router-attendance');
+mongoose.connect('mongodb://' + config.mongodb.user + ':' + config.mongodb.password + '@ds143990.mlab.com:43990/' + config.mongodb.database);
 app.set('view engine', 'ejs');
 
 app.use(bodyParse.urlencoded({extended: true}));
@@ -20,7 +20,7 @@ var port = process.env.PORT || 8080;
 
 app.get('/',(req, res) => {
     res.render('index', {
-        attendanceCount:'',
+        present:'',
         total: ''
     });
 });
