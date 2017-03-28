@@ -1,18 +1,52 @@
 # Attendance Router
-Used in conjunction with [aarpush](https://github.com/ghmeier/arppush) to take attendance.
+Used in conjunction with [aarpush](https://github.com/ghmeier/arppush) to automate attendance taking.
 
 ## Scripts
-`npm install` installs dependencies
-`npm start` starts the application on [localhost:8080]()
+`npm install` to install dependencies
+`npm start` to start the application on [localhost:8080]()
 
 
 ## API
 
-##### `POST /api/user` *outputs an attendance value.* 
+##### `POST /api/user` *creates a new user.* 
 Example:
 *Request*
 ```
 POST localhost:8080/api/user
+{
+   "email" : "test@gmail.com",
+   "mac" : "5C:E0:C5:98:D2:49"
+}
+``` 
+*Response*
+```
+{
+    message: 'User successfully created'
+}
+```
+
+##### `GET /api/user` *returns all users* 
+Example:
+*Request*
+```
+GET localhost:8080/api/user
+```
+*Response*
+```
+[
+  {
+    "_id": "58dabe14640a050c34f76f8c",
+    "mac": "5C:E0:C5:98:D2:49",
+    "email": "test@gmail.com",
+    "__v": 0
+  }
+]
+````
+
+##### `POST /api/arppush` *stores the given map of users and returns an attendance count*
+Example:
+*Request*
+```
 {
    "AC:CF:23:31:9B:33": {
       "ip": "192.168.1.132",
@@ -27,7 +61,7 @@ POST localhost:8080/api/user
       "timestamp": 1427686747854
    }
 }
-``` 
+```
 *Response*
 ```
 <!DOCTYPE html>
@@ -35,7 +69,10 @@ POST localhost:8080/api/user
     </head>
     <body>
         <h1>Attendance Router</h1>
-        <p>2/3</p>
+        <p>
+            2
+            /3
+        </p>
     </body>
 </html>
 ```
