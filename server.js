@@ -5,6 +5,7 @@ var mongoose = require('mongoose');
 var config = require('./config.json');
 var userRouter = require('./routes/user');
 var arpRouter = require('./routes/arp');
+var indexRouter = require('./routes/index');
 
 mongoose.connect('mongodb://' + config.mongodb.user + ':' + config.mongodb.password + '@ds143990.mlab.com:43990/' + config.mongodb.database);
 app.set('view engine', 'ejs');
@@ -18,12 +19,7 @@ var port = process.env.PORT || 8080;
 * Display homepage
 */
 
-app.get('/',(req, res) => {
-    res.render('index', {
-        present:'',
-        total: ''
-    });
-});
+app.use('/', indexRouter);
 
 app.get('/register', (req, res) => {
     res.render('register');
@@ -31,7 +27,7 @@ app.get('/register', (req, res) => {
 
 app.use('/api/user', userRouter);
 app.use('/api/arppush', arpRouter);
-app.use(logErrors);   
+app.use(logErrors);
 app.listen(port);
 console.log('Server running on port ' + port);
 

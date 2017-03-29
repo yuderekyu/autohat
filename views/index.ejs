@@ -1,11 +1,44 @@
 <!DOCTYPE html>
     <head>
+        <script src="https://code.highcharts.com/highcharts.js"></script>
+        <script src="https://code.highcharts.com/modules/exporting.js"></script>
+        <title>Autohat</title>
     </head>
     <body>
-        <h1>Attendance Router</h1>
-        <p>
-            <%=present ? present : '' %>
-            /<%=total ? total : ''%>
-        </p>
+        <h1>Autohat Dash</h1>
+        <div id="container">
+        </div>
+        <script type="text/javascript">
+
+            var time = "<%= time %>".split(',');
+            Highcharts.chart('container', {
+                title: {
+                    text: 'Class Attendance'
+                },
+                yAxis: {
+                    title: {
+                        text: 'Peaple'
+                    }
+                },
+                xAxis: {
+                    categories: time
+                },
+                legend: {
+                    layout: 'vertical',
+                    align: 'right',
+                    verticalAlign: 'middle'
+                },
+                series: [{
+                    name: 'Present',
+                    data: <%= present %>
+                },{
+                    name: 'Absent',
+                    data: <%= absent %>
+                },{
+                    name: 'Total',
+                    data: <%= total %>
+                }]
+            });
+        </script>
     </body>
 </html>

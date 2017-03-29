@@ -9,15 +9,15 @@ var router = express.Router();
  */
 router.post('/', (req, res) => {
     var blob = req.body;
-    var attendance = helper.findMacAddresses(blob);
-    attendance.save(err => {
-        if (err)
+    helper.findMacAddresses(blob, err => {
+        if (err) {
             res.send(err);
+            return;
+        }
+
+        res.send({success:true});
+
     });
-    res.render('index', {
-        present: attendance.present,
-        total: attendance.total
-    })        
 });
 
 module.exports = router;
