@@ -8,7 +8,7 @@ var arpRouter = require('./routes/arp');
 var indexRouter = require('./routes/index');
 
 
-const url = process.env['MONGODB_URI'] || 'mongodb://' + config.mongodb.user + ':' + config.mongodb.password + '@ds143990.mlab.com:43990/' + config.mongodb.database;
+const url = process.env.MONGODB_URI || 'mongodb://' + config.mongodb.user + ':' + config.mongodb.password + '@ds143990.mlab.com:43990/' + config.mongodb.database;
 mongoose.connect(url);
 app.set('view engine', 'ejs');
 
