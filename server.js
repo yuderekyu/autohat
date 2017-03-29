@@ -2,14 +2,21 @@ var express = require('express');
 var app = express();
 var bodyParse = require('body-parser');
 var mongoose = require('mongoose');
-var config = require('./config.json');
 var userRouter = require('./routes/user');
 var arpRouter = require('./routes/arp');
 var indexRouter = require('./routes/index');
 
+try{
+    var config = require('./config.json');
+    var url = 'mongodb://' + config.mongodb.user + ':' + config.mongodb.password + '@ds143990.mlab.com:43990/' + config.mongodb.database;
+    mongoose.connect(url);
+} catch(e){
+    console.log("Config file does not exist");
+    var url = process.env['MONGODB_URI']
+    mongoose.connect(url);
+}
 
-const url = process.env['MONGODB_URI'] || 'mongodb://' + config.mongodb.user + ':' + config.mongodb.password + '@ds143990.mlab.com:43990/' + config.mongodb.database;
-mongoose.connect(url);
+
 app.set('view engine', 'ejs');
 
 app.use(bodyParse.urlencoded({extended: true}));
