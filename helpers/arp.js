@@ -3,7 +3,7 @@ var Attendance = require('../models/attendance');
 var User = require('../models/user');
 
 /**
- * Searches within the arppush blob for each user registered within the directory
+ * Searches within the arppush blob for each user registered within the database
  * @returns Attendance
  */
 var findMacAddresses = (blob, cb) => {
