@@ -7,7 +7,9 @@ var userRouter = require('./routes/user');
 var arpRouter = require('./routes/arp');
 var indexRouter = require('./routes/index');
 
-mongoose.connect('mongodb://' + config.mongodb.user + ':' + config.mongodb.password + '@ds143990.mlab.com:43990/' + config.mongodb.database);
+
+const url = process.env['MONGODB_URI'] || 'mongodb://' + config.mongodb.user + ':' + config.mongodb.password + '@ds143990.mlab.com:43990/' + config.mongodb.database;
+mongoose.connect(url);
 app.set('view engine', 'ejs');
 
 app.use(bodyParse.urlencoded({extended: true}));
