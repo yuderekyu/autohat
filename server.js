@@ -16,7 +16,6 @@ try{
     mongoose.connect(url);
 }
 
-
 app.set('view engine', 'ejs');
 
 app.use(bodyParse.urlencoded({extended: true}));
