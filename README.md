@@ -1,10 +1,10 @@
 # Attendance Router
 Used in conjunction with [aarpush](https://github.com/ghmeier/arppush) to automate attendance taking.
+Live app running here [https://autohat.herokuapp.com/]()
 
 ## Scripts
 `npm install` to install dependencies
 `npm start` to start the application on [localhost:8080]()
-
 
 ## API
 
@@ -64,15 +64,5 @@ Example:
 ```
 *Response*
 ```
-<!DOCTYPE html>
-    <head>
-    </head>
-    <body>
-        <h1>Attendance Router</h1>
-        <p>
-            2
-            /3
-        </p>
-    </body>
-</html>
+{success:true}
 ```
