@@ -1,33 +1,53 @@
-var express = require('express');
+const express = require('express');
+const Attendance = require('../models/attendance');
 
-var Attendance = require('../models/attendance');
-
-var router = express.Router();
+const router = express.Router();
 
 router.get('/', (req, res) => {
-    Attendance.find((err, points) => {
+    Attendance.find({}, null, {sort: {start: -1}}, (err, sessions) => {
+        if (err) {
+            res.send(err);
+            return;
+        }
+
         var present = [];
         var absent = [];
         var total = [];
         var time = [];
+        var sessionTime = [];
+        for (let j = 0; j < sessions.length; j++) {
+            var points = sessions[j].data;
+            var presentRow = [];
+            var absentRow = [];
+            var totalRow = [];
+            var timeRow = [];
 
-        for (var i=points.length-100; i<points.length; i++) {
-            var c = points[i];
+            for (let i = 0; i < points.length; i++) {
+                const c = points[i];
 
-            if (!c || !c.total) {
-                continue;
+                if (!c) {
+                    continue;
+                }
+
+                var string = new Date(c.timestamp).toLocaleTimeString();
+                presentRow.push(c.present);
+                absentRow.push(c.absent);
+                totalRow.push(c.total);
+                timeRow.push(string);
             }
 
-            var string = new Date(c.timestamp).toLocaleTimeString();
-            present.push(c.present);
-            absent.push(c.absent);
-            total.push(c.total);
-            time.push(string);
+            present.push(presentRow);
+            absent.push(absentRow);
+            total.push(totalRow);
+            time.push(timeRow);
+            sessionTime.push({start: sessions[j].start, end: sessions[j].end});
         }
+
         res.render('index', {
-            present: JSON.stringify(present),
-            absent: JSON.stringify(absent),
-            total: JSON.stringify(total),
+            present: present,
+            absent: absent,
+            total: total,
+            sessions: sessionTime,
             time: time
         });
     });

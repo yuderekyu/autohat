@@ -3,42 +3,106 @@
         <script src="https://code.highcharts.com/highcharts.js"></script>
         <script src="https://code.highcharts.com/modules/exporting.js"></script>
         <title>Autohat</title>
+        <style>
+            .time {
+                display: block;
+            }
+            #links {
+                padding: .5em;
+                display: table-cell;
+                vertical-align: top;
+            }
+            #container {
+                display: table-cell;
+
+            }
+            .content {
+                width: 100%;
+                display: table;
+            }
+        </style>
     </head>
     <body>
         <h1>Autohat Dash</h1>
-        <div id="container">
-        </div>
-        <script type="text/javascript">
 
-            var time = "<%= time %>".split(',');
-            Highcharts.chart('container', {
-                title: {
-                    text: 'Class Attendance'
-                },
-                yAxis: {
+        <button onclick="start()">Start Session</button>
+        <button onclick="stop()">Stop Session</button>
+        <div class="content">
+            <div id="links">
+                <h2>Charts:</h2>
+            </div>
+            <div id="container"></div>
+        </div>
+
+        <script type="text/javascript">
+            var sessions = <%- JSON.stringify(sessions) %>;
+            var present = <%- JSON.stringify(present) %>;
+            var absent = <%- JSON.stringify(absent) %>;
+            var total = <%- JSON.stringify(total) %>;
+            var times = <%- JSON.stringify(time) %>;
+
+            for (var i = 0; i < sessions.length; i++) {
+                var chartDiv  = document.createElement("div");
+                chartDiv.id = i.toString();
+                document.getElementById("container").append(chartDiv);
+                var time = times[i];
+
+                var start = new Date(sessions[i].start).toLocaleString();
+                var title = 'Attendance from ' + start;
+                if (sessions[i].end) {
+                    var end = new Date(sessions[i].end).toLocaleString();
+                    title += ' to ' + end;
+                } else {
+                    title += ' to now.';
+                }
+
+                var linkA = document.createElement("a");
+                linkA.href = "#" + i;
+                linkA.text = start;
+                linkA.className = "time";
+                document.getElementById("links").append(linkA);
+
+                Highcharts.chart(chartDiv, {
                     title: {
-                        text: 'People'
-                    }
-                },
-                xAxis: {
-                    categories: time
-                },
-                legend: {
-                    layout: 'vertical',
-                    align: 'right',
-                    verticalAlign: 'middle'
-                },
-                series: [{
-                    name: 'Present',
-                    data: <%= present %>
-                },{
-                    name: 'Absent',
-                    data: <%= absent %>
-                },{
-                    name: 'Total',
-                    data: <%= total %>
-                }]
-            });
+                        text: title
+                    },
+                    yAxis: {
+                        title: {
+                            text: 'People'
+                        }
+                    },
+                    xAxis: {
+                        categories: time
+                    },
+                    legend: {
+                        layout: 'vertical',
+                        align: 'right',
+                        verticalAlign: 'middle'
+                    },
+                    series: [{
+                        name: 'Present',
+                        data: present[i],
+                    },{
+                        name: 'Absent',
+                        data: absent[i]
+                    },{
+                        name: 'Total',
+                        data: total[i]
+                    }]
+                });
+            }
+
+            var start = function(e) {
+                fetch("/api/arppush/start", {method: "POST"}).then(function(err, data) {
+                    console.log(err, data);
+                    location.reload(true);
+                });
+            }
+            var stop = function(e) {
+                fetch("/api/arppush/stop", {method: "POST"}).then(function(err, data) {
+                    location.reload(true);
+                });
+            }
         </script>
     </body>
 </html>

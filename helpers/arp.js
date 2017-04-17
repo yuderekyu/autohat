@@ -1,24 +1,80 @@
-var Directory = require('../directory.json');
-var Attendance = require('../models/attendance');
-var User = require('../models/user');
+const Attendance = require('../models/attendance');
+const User = require('../models/user');
+
+/**
+ * Creates a new attendance models starting now.
+ */
+ const startAttendance = (blob, cb) => {
+    Attendance.findOne({end: null}, (err, a) => {
+        if (err) {
+            cb(err);
+            return;
+        }
+        if (a) {
+            // don't start if a session already exists
+            cb();
+            return;
+        }
+
+        const attendance = new Attendance();
+        attendance.save(err => {
+            cb(err);
+        });
+    });
+ };
+
+/**
+ * Stops an attendance from recording by setting the end time to now
+ */
+ const stopAttendance = (blob, cb) => {
+    Attendance.findOne({end: null}, (err, a) => {
+        if (err) {
+            cb(err);
+            return;
+        }
+        if (!a) {
+            cb();
+            return;
+        }
+
+        a.end = Date.now();
+        a.save(err => {
+            cb(err);
+        });
+    });
+ };
+
 
 /**
  * Searches within the arppush blob for each user registered within the database
  * @returns Attendance
  */
-var findMacAddresses = (blob, cb) => {
-    User.find((err, users) => {
-        var total = users.length;
-        var present = 0;
-        var absent = 0;
-        for (let i=0; i < total; i++){
-            if (blob[users[i].mac]) {
-               present++;
-            }
+const findMacAddresses = (blob, cb) => {
+    Attendance.findOne({end: null}, (err, a) => {
+        if (err) {
+            cb(err);
+            return;
+        }
+        if (!a) {
+            cb();
+            return;
         }
 
-        createAttendance(present, total).save(err => {
-            cb(err);
+        User.find((err, users) => {
+            const total = users.length;
+            let present = 0;
+            let emails = [];
+            for (let i=0; i < total; i++) {
+                let status = {email: users[i].email};
+                if (blob[users[i].mac]) {
+                   present++;
+                   status.present = true;
+                }
+            }
+
+            createAttendance(a, present, total).save(err => {
+                cb(err);
+            });
         });
     });
 };
@@ -29,13 +85,17 @@ var findMacAddresses = (blob, cb) => {
  * @param {*} absent
  * @returns Attendance
  */
-var createAttendance = (present, total) => {
-    var attendance = Attendance();
-    attendance.timestamp = Date.now();
-    attendance.present = present;
-    attendance.absent = total - present;
-    attendance.total = total;
+const createAttendance = (attendance, present, total, emails) => {
+    let segment = {};
+    segment.timestamp = Date.now();
+    segment.present = present;
+    segment.absent = total - present;
+    segment.total = total;
+    segment.status = emails;
+    attendance.data.push(segment);
     return attendance;
-}
+};
 
+module.exports.startAttendance = startAttendance;
+module.exports.stopAttendance = stopAttendance;
 module.exports.findMacAddresses = findMacAddresses;

@@ -1,18 +1,19 @@
-var express = require('express');
-var app = express();
-var bodyParse = require('body-parser');
-var mongoose = require('mongoose');
-var userRouter = require('./routes/user');
-var arpRouter = require('./routes/arp');
-var indexRouter = require('./routes/index');
+const express = require('express');
+const bodyParse = require('body-parser');
+const mongoose = require('mongoose');
+const userRouter = require('./routes/user');
+const arpRouter = require('./routes/arp');
+const indexRouter = require('./routes/index');
 
-try{
-    var config = require('./config.json');
-    var url = 'mongodb://' + config.mongodb.user + ':' + config.mongodb.password + '@ds143990.mlab.com:43990/' + config.mongodb.database;
+const app = express();
+
+try {
+    const config = require('./config.json');
+    const url = 'mongodb://' + config.mongodb.user + ':' + config.mongodb.password + '@ds143990.mlab.com:43990/' + config.mongodb.database;
     mongoose.connect(url);
-} catch(e){
-    console.log("Config file does not exist");
-    var url = process.env['MONGODB_URI']
+} catch (err) {
+    console.log('Config file does not exist');
+    const url = process.env.MONGODB_URI;
     mongoose.connect(url);
 }
 
@@ -21,7 +22,7 @@ app.set('view engine', 'ejs');
 app.use(bodyParse.urlencoded({extended: true}));
 app.use(bodyParse.json());
 
-var port = process.env.PORT || 8080;
+const port = process.env.PORT || 8080;
 
 /**
 * Display homepage
@@ -31,7 +32,7 @@ app.use('/', indexRouter);
 
 app.get('/register', (req, res) => {
     res.render('register');
-})
+});
 
 app.use('/api/user', userRouter);
 app.use('/api/arppush', arpRouter);
