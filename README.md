@@ -1,8 +1,10 @@
-# Attendance Router
+# Autohat
 [![Deploy](https://www.herokucdn.com/deploy/button.png)](https://heroku.com/deploy)
-Click the deploy button to create and deploy your own copy of `attendance router`. 
+<- Click to create and deploy your own copy of `Autohat`! 
 
 Used in conjunction with [aarpush](https://github.com/ghmeier/arppush) to automate attendance taking.
+
+To register someone into the system, navgate to the url `/register` and input their email and mac address. To start a recording session, select the `start session` button. To stop the recording session, select the `stop session`. A link to each session will be displayed on the left hand side for easy navigation.
 
 Live app running here [https://autohat.herokuapp.com/]()
 
@@ -10,8 +12,6 @@ Live app running here [https://autohat.herokuapp.com/]()
 `npm install` to install dependencies
 
 `npm start` to start the application on [localhost:8080]()
-
-
 
 ## API
 
