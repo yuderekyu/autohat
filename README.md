@@ -1,10 +1,16 @@
 # Attendance Router
+[![Deploy](https://www.herokucdn.com/deploy/button.png)](https://heroku.com/deploy)
+
 Used in conjunction with [aarpush](https://github.com/ghmeier/arppush) to automate attendance taking.
+
 Live app running here [https://autohat.herokuapp.com/]()
 
 ## Scripts
 `npm install` to install dependencies
+
 `npm start` to start the application on [localhost:8080]()
+
+
 
 ## API
 
