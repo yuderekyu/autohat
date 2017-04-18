@@ -13,7 +13,7 @@ try {
     mongoose.connect(url);
 } catch (err) {
     console.log('Config file does not exist');
-    const url = process.env.MONGODB_URI;
+    const url = process.env.MONGO_URI;
     mongoose.connect(url);
 }
 
