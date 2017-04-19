@@ -1,6 +1,6 @@
 # Autohat
 [![Deploy](https://www.herokucdn.com/deploy/button.png)](https://heroku.com/deploy)
-<- Click to create and deploy your own copy of `Autohat`! 
+<- Click to create and deploy your own copy of `Autohat`! Comes packaged with an accessable MongoDB, connected with mLab.  
 
 Used in conjunction with [aarpush](https://github.com/ghmeier/arppush) to automate attendance taking.
 
