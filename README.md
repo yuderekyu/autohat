@@ -1,12 +1,12 @@
 # Autohat
 [![Deploy](https://www.herokucdn.com/deploy/button.png)](https://heroku.com/deploy)
-<- Click to create and deploy your own copy of `Autohat`! Comes packaged with an accessable MongoDB, connected with mLab.  
+<- Click to create and deploy your own copy of Autohat! Comes packaged with an accessable MongoDB, connected through mLab.  
 
 Used in conjunction with [aarpush](https://github.com/ghmeier/arppush) to automate attendance taking.
 
 To register someone into the system, navgate to the url `/register` and input their email and mac address. To start a recording session, select the `start session` button. To stop the recording session, select the `stop session`. A link to each session will be displayed on the left hand side for easy navigation.
 
-Live app running here [https://autohat.herokuapp.com/]()
+Live app running [here](https://autohat.herokuapp.com/)
 
 ## Build Scripts
 `npm install` to install dependencies
